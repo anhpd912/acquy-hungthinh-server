@@ -1,0 +1,25 @@
+{
+  "name": "acquy-hungthinh-server",
+  "version": "1.0.0",
+  "description": "For acquyhungthinh server",
+  "keywords": [
+    "acquyhungthinh"
+  ],
+  "license": "ISC",
+  "author": "Phan Anh",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/anhpd912/acquy-hungthinh-server.git"
+  },
+  "bugs": {
+    "url": "https://github.com/anhpd912/acquy-hungthinh-server.git/issues"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
