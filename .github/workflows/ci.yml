@@ -1,0 +1,67 @@
+name: Node.js CI
+
+# Controls when the workflow will run
+# 
+On:
+  # Run on pushes to the default branch
+  push:
+    branches: [ main ]
+  # Run on pull requests targeting the default branch
+  pull_request:
+    branches: [ main ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can be run independently
+jobs:
+  # Job name
+  build_and_test:
+    # Runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Environment variables for the job
+    env:
+      # Use your test environment variables here
+      NODE_ENV: test
+      ACCESS_TOKEN_SECRET: "test_access_token_secret"
+      REFRESH_TOKEN_SECRET: "test_refresh_token_secret"
+      ACCESS_TOKEN_EXPIRATION: "15m"
+      REFRESH_TOKEN_EXPIRATION: "7d"
+      # For Cloudinary, you might want to use dummy values or mock them if not essential for tests
+      CLOUDINARY_CLOUD_NAME: "dummy_cloud_name"
+      CLOUDINARY_API_KEY: "dummy_api_key"
+      CLOUDINARY_API_SECRET: "dummy_api_secret"
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository into the working directory
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Sets up the Node.js environment
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      # Installs dependencies using npm ci for faster, more reliable installs in CI
+      - name: Install dependencies
+        run: npm ci
+
+      # Runs tests
+      - name: Run tests
+        run: npm test
+        # Optionally, add environment variables here if not set globally in env:
+        # env:
+        #   ACCESS_TOKEN_SECRET: ${{ secrets.ACCESS_TOKEN_SECRET }}
+        #   MONGODB_URI: ${{ secrets.MONGODB_URI }}
+
+      # Optional: Run linter
+      # - name: Run linter
+      #   run: npm run lint
+
+      # Optional: Build step if you have one (e.g., for frontend compilation)
+      # - name: Build project
+      #   run: npm run build
