@@ -1,8 +1,7 @@
 name: Node.js CI
 
 # Controls when the workflow will run
-# 
-On:
+on:
   # Run on pushes to the default branch
   push:
     branches: [ main ]
@@ -53,10 +52,6 @@ jobs:
       # Runs tests
       - name: Run tests
         run: npm test
-        # Optionally, add environment variables here if not set globally in env:
-        # env:
-        #   ACCESS_TOKEN_SECRET: ${{ secrets.ACCESS_TOKEN_SECRET }}
-        #   MONGODB_URI: ${{ secrets.MONGODB_URI }}
 
       # Optional: Run linter
       # - name: Run linter
