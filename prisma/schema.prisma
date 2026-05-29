@@ -3,6 +3,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  output   = "./generated/client"
 }
 
 datasource db {
@@ -48,6 +49,8 @@ model Product {
   isDeleted               Boolean  @default(false)
   createdAt               DateTime @default(now())
   updatedAt               DateTime @updatedAt
+  categoryId              String?
+  category                Category? @relation(fields: [categoryId], references: [id])
 
   @@index([tenSanPham])
   @@index([dongSanPham])
@@ -79,4 +82,14 @@ model Video {
   updatedAt DateTime @updatedAt
 
   @@map("videos")
+}
+model Category {
+  id          String    @id @default(uuid())
+  name        String    @unique
+  description String?   @db.Text
+  products    Product[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@map("categories")
 }

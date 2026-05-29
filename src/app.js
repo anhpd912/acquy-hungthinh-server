@@ -10,7 +10,7 @@ const app = express();
 // Middleware cơ bản
 
 // CORS configuration
-const allowedOrigins = ['http://localhost:3000', 'https://acquyhungthinh.com.vn', 'https://www.acquyhungthinh.com.vn'];
+const allowedOrigins = ['http://localhost:3000', 'https://acquyhungthinh.com.vn', 'https://www.acquyhungthinh.com.vn', 'https://api.acquyhungthinh.com.vn'];
 const corsOptions = {
   origin: function (origin, callback) {
     // Allow requests with no origin (like mobile apps, curl, or server-to-server)
