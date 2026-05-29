@@ -6,4 +6,4 @@ deployment:
     - cd $DEPLOYPATH
     - /usr/local/bin/npm install --production
     - /usr/local/bin/npx prisma generate
-    - /bin/touch $DEPLOYPATH/tmp/restart.txt
+    - /usr/local/bin/npx prisma db push\n    - /bin/touch $DEPLOYPATH/tmp/restart.txt
