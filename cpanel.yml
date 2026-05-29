@@ -1,0 +1,9 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/p24v8ps5wnoa/repositories/acquy-hungthinh-server
+    - /bin/cp -R * $DEPLOYPATH
+    - cd $DEPLOYPATH
+    - /usr/local/bin/npm install --production
+    - /usr/local/bin/npx prisma generate
+    - /bin/touch $DEPLOYPATH/tmp/restart.txt

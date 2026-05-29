@@ -1,14 +1,21 @@
-import Video from '../models/video.model.js';
+import prisma from '../lib/prisma.js';
 
 export const createVideo = async (videoData) => {
-    const video = new Video(videoData);
-    return await video.save();
+    return await prisma.video.create({
+        data: videoData
+    });
 };
 
 export const getAllVideos = async (page = 1, limit = 10) => {
-    const skip = (page - 1) * limit;
-    const videos = await Video.find({ isDeleted: false }).skip(skip).limit(limit).sort({ createdAt: -1 });
-    const totalVideos = await Video.countDocuments({ isDeleted: false });
+    const videos = await prisma.video.findMany({
+        where: { isDeleted: false },
+        orderBy: { createdAt: 'desc' },
+        skip: (page - 1) * limit,
+        take: limit,
+    });
+    
+    const totalVideos = await prisma.video.count({ where: { isDeleted: false } });
+    
     return {
         videos,
         totalPages: Math.ceil(totalVideos / limit),
@@ -17,14 +24,22 @@ export const getAllVideos = async (page = 1, limit = 10) => {
 };
 
 export const getVideoById = async (id) => {
-    const video = await Video.findOne({ _id: id, isDeleted: false });
-    return video;
+    return await prisma.video.findUnique({
+        where: { id },
+        include: { author: true }
+    });
 };
 
 export const updateVideoById = async (id, updateData) => {
-    return await Video.findByIdAndUpdate(id, updateData, { new: true });
+    return await prisma.video.update({
+        where: { id },
+        data: updateData,
+    });
 };
 
 export const softDeleteVideoById = async (id) => {
-    return await Video.findByIdAndUpdate(id, { isDeleted: true }, { new: true });
+    return await prisma.video.update({
+        where: { id },
+        data: { isDeleted: true },
+    });
 };

@@ -1,4 +1,4 @@
-import User from '../models/user.model.js';
+import prisma from '../lib/prisma.js';
 import {
   generateAccessToken,
   generateRefreshToken,
@@ -17,19 +17,20 @@ const register = async (req, res) => {
   }
 
   try {
-    const existingUser = await User.findOne({ username });
+    const existingUser = await prisma.user.findUnique({ where: { username } });
     if (existingUser) {
       return sendResponse(res, 409, 'Username already taken');
     }
 
     const hashedPassword = await hashPassword(password);
-    const user = new User({
-      username,
-      password: hashedPassword,
-      displayName,
+    
+    await prisma.user.create({
+      data: {
+        username,
+        password: hashedPassword,
+        displayName,
+      }
     });
-
-    await user.save();
 
     sendResponse(res, 201, 'User registered successfully');
   } catch (error) {
@@ -45,7 +46,7 @@ const login = async (req, res) => {
   }
 
   try {
-    const user = await User.findOne({ username });
+    const user = await prisma.user.findUnique({ where: { username } });
     if (!user || !user.isActive) {
       return sendResponse(res, 401, 'Invalid credentials or user disabled');
     }
@@ -60,10 +61,9 @@ const login = async (req, res) => {
 
     await saveRefreshToken(user.id, refreshToken);
     
-    // For security, the refresh token should be sent in an HTTP-Only cookie
     res.cookie('refreshToken', refreshToken, { 
         httpOnly: true, 
-        secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
+        secure: process.env.NODE_ENV === 'production',
         sameSite: 'strict',
         maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
     });
@@ -82,26 +82,22 @@ const refreshToken = async (req, res) => {
   }
 
   try {
-    // Verify the refresh token
     const decoded = verifyToken(token, process.env.REFRESH_TOKEN_SECRET);
     
     if (!decoded) {
       return sendResponse(res, 401, 'Invalid or expired refresh token');
     }
 
-    // Find the user and check if the refresh token matches
-    const user = await User.findOne({ id: decoded.id });
+    const user = await prisma.user.findUnique({ where: { id: decoded.id } });
     
     if (!user || !user.isActive || user.refreshToken !== token) {
       return sendResponse(res, 401, 'Invalid refresh token');
     }
 
-    // Check if refresh token is expired
     if (user.refreshTokenExpiry && new Date() > user.refreshTokenExpiry) {
       return sendResponse(res, 401, 'Refresh token expired');
     }
 
-    // Generate new access token
     const newAccessToken = generateAccessToken(user.id);
     
     sendResponse(res, 200, 'Token refreshed successfully', { accessToken: newAccessToken });
@@ -115,20 +111,17 @@ const logout = async (req, res) => {
 
   if (token) {
     try {
-      // Clear the refresh token from the user's record
       const decoded = verifyToken(token, process.env.REFRESH_TOKEN_SECRET);
       if (decoded) {
-        await User.findOneAndUpdate(
-          { id: decoded.id },
-          { refreshToken: null, refreshTokenExpiry: null }
-        );
+        await prisma.user.update({
+          where: { id: decoded.id },
+          data: { refreshToken: null, refreshTokenExpiry: null }
+        });
       }
     } catch (error) {
-      // Continue with logout even if token verification fails
     }
   }
 
-  // Clear the refresh token cookie
   res.clearCookie('refreshToken', {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',

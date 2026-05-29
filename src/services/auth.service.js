@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import User from '../models/user.model.js';
+import prisma from '../lib/prisma.js';
 
 // Generate a new JWT access token
 const generateAccessToken = (userId) => {
@@ -39,7 +39,13 @@ const verifyToken = (token, secret) => {
 // Store a refresh token in the user's record
 const saveRefreshToken = async (userId, token) => {
     const refreshTokenExpiry = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 days from now
-    await User.findOneAndUpdate({id: userId}, { refreshToken: token, refreshTokenExpiry });
+    await prisma.user.update({
+        where: { id: userId },
+        data: { 
+            refreshToken: token, 
+            refreshTokenExpiry 
+        }
+    });
 };
 
 

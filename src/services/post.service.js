@@ -1,14 +1,21 @@
-import Post from '../models/post.model.js';
+import prisma from '../lib/prisma.js';
 
 export const createPost = async (postData) => {
-    const post = new Post(postData);
-    return await post.save();
+    return await prisma.post.create({
+        data: postData
+    });
 };
 
 export const getAllPosts = async (page = 1, limit = 10) => {
-    const skip = (page - 1) * limit;
-    const posts = await Post.find({ isDeleted: false }).skip(skip).limit(limit).sort({ createdAt: -1 });
-    const totalPosts = await Post.countDocuments({ isDeleted: false });
+    const posts = await prisma.post.findMany({
+        where: { isDeleted: false },
+        orderBy: { createdAt: 'desc' },
+        skip: (page - 1) * limit,
+        take: limit,
+    });
+    
+    const totalPosts = await prisma.post.count({ where: { isDeleted: false } });
+    
     return {
         posts,
         totalPages: Math.ceil(totalPosts / limit),
@@ -17,16 +24,22 @@ export const getAllPosts = async (page = 1, limit = 10) => {
 };
 
 export const getPostById = async (id) => {
-    const post = await Post.findOne({ _id: id, isDeleted: false });
-    return post;
+    return await prisma.post.findUnique({
+        where: { id },
+        include: { author: true }
+    });
 };
 
 export const updatePostById = async (id, updateData) => {
-    const post = await Post.findByIdAndUpdate(id, updateData, { new: true });
-    return post;
+    return await prisma.post.update({
+        where: { id },
+        data: updateData,
+    });
 };
 
 export const softDeletePostById = async (id) => {
-    const post = await Post.findByIdAndUpdate(id, { isDeleted: true }, { new: true });
-    return post;
+    return await prisma.post.update({
+        where: { id },
+        data: { isDeleted: true },
+    });
 };

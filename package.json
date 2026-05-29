@@ -24,6 +24,7 @@
     "url": "https://github.com/anhpd912/acquy-hungthinh-server.git/issues"
   },
   "dependencies": {
+    "@prisma/client": "^5.22.0",
     "bcryptjs": "^3.0.3",
     "cloudinary": "^2.10.0",
     "cookie-parser": "^1.4.7",
@@ -32,8 +33,6 @@
     "express": "^5.2.1",
     "joi": "^18.2.1",
     "jsonwebtoken": "^9.0.3",
-    "mongodb": "^7.2.0",
-    "mongoose": "^9.6.2",
     "multer": "^2.1.1",
     "nodemon": "^3.1.14",
     "sharp": "^0.34.5",
@@ -44,7 +43,7 @@
   "devDependencies": {
     "cross-env": "^10.1.0",
     "jest": "^30.4.2",
-    "mongodb-memory-server": "^10.3.1",
+    "prisma": "^5.22.0",
     "supertest": "^7.2.2"
   }
 }

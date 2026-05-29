@@ -1,41 +1,51 @@
-import { MongoMemoryServer } from 'mongodb-memory-server';
-import mongoose from 'mongoose';
+import prisma from '../../lib/prisma.js';
 import dotenv from 'dotenv';
 
 dotenv.config({ path: './.env' });
 
-let mongoServer;
-
-// Use a separate test environment for secrets
+// Set test environment variables
 process.env.ACCESS_TOKEN_SECRET = 'test_access_token_secret';
 process.env.REFRESH_TOKEN_SECRET = 'test_refresh_token_secret';
+process.env.NODE_ENV = 'test';
 
+// Reset database before all tests
 beforeAll(async () => {
-    mongoServer = await MongoMemoryServer.create();
-    const uri = mongoServer.getUri();
-    
-    // Disconnect if already connected
-    if (mongoose.connection.readyState !== 0) {
-        await mongoose.disconnect();
+    try {
+        // Connect to Prisma
+        await prisma.$connect();
+        console.log('Connected to database for testing');
+    } catch (error) {
+        console.error('Failed to connect to database for testing', error);
+        process.exit(1);
     }
-    
-    await mongoose.connect(uri);
 });
 
+// Clean up database after all tests
 afterAll(async () => {
-    if (mongoose.connection.readyState !== 0) {
-        await mongoose.disconnect();
-    }
-    if (mongoServer) {
-        await mongoServer.stop();
+    try {
+        // Delete all data from tables in reverse order of dependencies
+        await prisma.post.deleteMany({});
+        await prisma.video.deleteMany({});
+        await prisma.product.deleteMany({});
+        await prisma.user.deleteMany({});
+        
+        // Disconnect from Prisma
+        await prisma.$disconnect();
+        console.log('Disconnected from database after testing');
+    } catch (error) {
+        console.error('Error during test cleanup', error);
     }
 });
 
-// Clear collections between tests to ensure test isolation
+// Clean up database after each test
 afterEach(async () => {
-    const collections = mongoose.connection.collections;
-    for (const key in collections) {
-        const collection = collections[key];
-        await collection.deleteMany();
+    try {
+        // Delete all data from tables in reverse order of dependencies
+        await prisma.post.deleteMany({});
+        await prisma.video.deleteMany({});
+        await prisma.product.deleteMany({});
+        await prisma.user.deleteMany({});
+    } catch (error) {
+        console.error('Error cleaning up after test', error);
     }
 });

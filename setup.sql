@@ -1,0 +1,66 @@
+
+-- Create Table users
+CREATE TABLE IF NOT EXISTS users (
+    id VARCHAR(36) PRIMARY KEY,
+    username VARCHAR(191) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    displayName VARCHAR(255) NOT NULL,
+    isActive BOOLEAN DEFAULT TRUE,
+    lastLogin DATETIME(3) NULL,
+    lockedUntil DATETIME(3) NULL,
+    refreshToken TEXT NULL,
+    refreshTokenExpiry DATETIME(3) NULL,
+    createdAt DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    updatedAt DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Create Table products
+CREATE TABLE IF NOT EXISTS products (
+    id VARCHAR(36) PRIMARY KEY,
+    tenSanPham VARCHAR(255) NOT NULL,
+    dongSanPham VARCHAR(255) NOT NULL,
+    kyHieuMaSanPham VARCHAR(191) NOT NULL UNIQUE,
+    dienAp VARCHAR(50) NOT NULL DEFAULT '12V',
+    dungLuong VARCHAR(50) NOT NULL,
+    dongKhoiDong VARCHAR(50) NOT NULL,
+    kieuChanDeVaCocBinh VARCHAR(100) NOT NULL,
+    moTaUngDungVaTuongThich TEXT NULL,
+    xuatXu VARCHAR(100) NOT NULL DEFAULT 'Hàn Quốc',
+    imageUrls JSON NOT NULL,
+    imagePublicIds JSON NOT NULL,
+    kichThuocDaiMm DOUBLE NULL,
+    kichThuocRongMm DOUBLE NULL,
+    kichThuocCaoMm DOUBLE NULL,
+    giaKhuyenNghiBan DOUBLE NULL,
+    giaGara DOUBLE NULL,
+    isDeleted BOOLEAN DEFAULT FALSE,
+    createdAt DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    updatedAt DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
+    INDEX idx_tenSanPham (tenSanPham),
+    INDEX idx_dongSanPham (dongSanPham),
+    INDEX idx_isDeleted (isDeleted)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Create Table posts
+CREATE TABLE IF NOT EXISTS posts (
+    id VARCHAR(36) PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    imageUrls JSON NOT NULL,
+    createdBy VARCHAR(36) NOT NULL,
+    isDeleted BOOLEAN DEFAULT FALSE,
+    createdAt DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    updatedAt DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
+    CONSTRAINT fk_posts_user FOREIGN KEY (createdBy) REFERENCES users(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Create Table videos
+CREATE TABLE IF NOT EXISTS videos (
+    id VARCHAR(36) PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    videoUrls JSON NOT NULL,
+    createdBy VARCHAR(36) NOT NULL,
+    isDeleted BOOLEAN DEFAULT FALSE,
+    createdAt DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    updatedAt DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
+    CONSTRAINT fk_videos_user FOREIGN KEY (createdBy) REFERENCES users(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
