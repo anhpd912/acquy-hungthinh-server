@@ -39,7 +39,7 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./
-          server-dir: ./acquy-hungthinh-server/
+          server-dir: ./acquy-server/
           exclude: |
             **/node_modules/**
             **/.git*/**
@@ -51,12 +51,12 @@ jobs:
         run: |
          mkdir -p tmp
          date +%s > ./tmp/restart.txt
-         
+
       - name: Trigger App Restart on cPanel
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: ./acquy-hungthinh-server/tmp/ # Đường dẫn vào thư mục tmp trên hosting
+          server-dir: ./acquy-server/tmp/ # Đường dẫn vào thư mục tmp trên hosting
           local-dir: ./tmp/          # Lấy file restart.txt trống từ local đẩy lên
