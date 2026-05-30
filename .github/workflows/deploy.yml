@@ -47,6 +47,11 @@ jobs:
             .env
             README.md
             *.log
+      - name: Update restart timestamp
+        run: |
+         mkdir -p tmp
+         date +%s > ./tmp/restart.txt
+         
       - name: Trigger App Restart on cPanel
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
