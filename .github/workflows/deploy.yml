@@ -26,15 +26,6 @@ jobs:
       - name: 💎 Generate Prisma Client
         run: npx prisma generate
 
-      - name: Trigger App Restart on cPanel
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
-        with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: ./acquy-hungthinh-server/tmp/ # Đường dẫn vào thư mục tmp trên hosting
-          local-dir: ./tmp/          # Lấy file restart.txt trống từ local đẩy lên
-
       
       - name: 🗄️ Sync Database Structure
         run: npx prisma db push --accept-data-loss
@@ -56,3 +47,11 @@ jobs:
             .env
             README.md
             *.log
+      - name: Trigger App Restart on cPanel
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: ./acquy-hungthinh-server/tmp/ # Đường dẫn vào thư mục tmp trên hosting
+          local-dir: ./tmp/          # Lấy file restart.txt trống từ local đẩy lên
