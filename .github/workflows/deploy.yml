@@ -44,7 +44,7 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./
-          server-dir: ./acquy-server/
+          server-dir: ./acquy-hungthinh-server/
           exclude: |
             **/node_modules/**
             **/.git*/**
