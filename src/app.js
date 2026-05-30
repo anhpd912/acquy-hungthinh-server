@@ -98,7 +98,7 @@ app.get('/', (req, res) => {
     </head>
     <body>
       <div class="container">
-        <h1>Welcome to Acquy Hung Thinh API</h1>
+        <h1>Welcome to Acquy Hung Thinh API v1.0.0</h1>
         <p>The server is running successfully. This is the base URL for the backend services.</p>
         <div class="status">✓ Server Status: Online</div>
         <div class="links">
