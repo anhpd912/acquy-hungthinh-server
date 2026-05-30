@@ -1,4 +1,4 @@
-import { PrismaClient } from '../../prisma/generated/client';
+import { PrismaClient } from '../../prisma/generated/client/index.js';
 
 // Khởi tạo client với cấu hình tối giản nhất cho Shared Hosting
 const createPrismaClient = () => {
