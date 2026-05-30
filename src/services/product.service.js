@@ -7,7 +7,7 @@ export const createProduct = async (productData) => {
     });
     
     if (existingProduct) {
-        throw new ApiError(409, 'Product with this model code already exists.');
+        throw new ApiError(409, 'Sản phẩm với mã ký hiệu này đã tồn tại.');
     }
     
     return await prisma.product.create({
@@ -17,32 +17,40 @@ export const createProduct = async (productData) => {
 
 export const getProductById = async (id) => {
     return await prisma.product.findUnique({
-        where: { id, isDeleted: false }
+        where: { id, isDeleted: false },
+        include: { category: true }
     });
 };
 
 export const getAllProducts = async (filters, options) => {
     const { page = 1, limit = 10 } = options;
-    const { search, dongSanPham } = filters;
+    const { keyword, categoryId, search} = filters;
 
     const where = { isDeleted: false };
     
-    if (search) {
+    // Tìm kiếm theo từ khóa (Keyword) hoặc search
+    const searchTerm = keyword || search;
+    if (searchTerm) {
         where.OR = [
-            { tenSanPham: { contains: search, mode: 'insensitive' } },
-            { kyHieuMaSanPham: { contains: search, mode: 'insensitive' } },
+            { tenSanPham: { contains: searchTerm } },
+            { kyHieuMaSanPham: { contains: searchTerm } },
+            { category: { name: { contains: searchTerm } } }
         ];
     }
     
-    if (dongSanPham) {
-        where.dongSanPham = dongSanPham;
+    // Lọc theo Category
+    if (categoryId) {
+        where.categoryId = categoryId;
     }
+
+    
 
     const products = await prisma.product.findMany({
         where,
+        include: { category: true },
         orderBy: { createdAt: 'desc' },
-        skip: (page - 1) * limit,
-        take: limit,
+        skip: (page - 1) * Number(limit),
+        take: Number(limit),
     });
 
     const totalProducts = await prisma.product.count({ where });
@@ -50,33 +58,21 @@ export const getAllProducts = async (filters, options) => {
     return {
         products,
         totalPages: Math.ceil(totalProducts / limit),
-        currentPage: page,
+        currentPage: Number(page),
         totalProducts,
     };
 };
 
 export const updateProductById = async (id, updateData) => {
-    const product = await prisma.product.update({
-        where: { id, isDeleted: false },
+    return await prisma.product.update({
+        where: { id },
         data: updateData,
     });
-    
-    if (!product) {
-        throw new ApiError(404, 'Product not found');
-    }
-    
-    return product;
 };
 
 export const deleteProductById = async (id) => {
-    const product = await prisma.product.update({
-        where: { id, isDeleted: false },
+    return await prisma.product.update({
+        where: { id },
         data: { isDeleted: true },
     });
-    
-    if (!product) {
-        throw new ApiError(404, 'Product not found');
-    }
-    
-    return { message: 'Product deleted successfully' };
 };

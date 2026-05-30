@@ -139,7 +139,6 @@ exports.Prisma.UserScalarFieldEnum = {
 exports.Prisma.ProductScalarFieldEnum = {
   id: 'id',
   tenSanPham: 'tenSanPham',
-  dongSanPham: 'dongSanPham',
   kyHieuMaSanPham: 'kyHieuMaSanPham',
   dienAp: 'dienAp',
   dungLuong: 'dungLuong',

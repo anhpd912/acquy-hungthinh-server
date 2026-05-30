@@ -39,9 +39,8 @@ const uploadSingleFile = (buffer, fileType) => {
 };
 
 // Middleware to process and upload multiple files to Cloudinary
-const uploadToCloudinary = (req, res, next) => {
-    // Use upload.array() for multiple files
-    upload.array('media', 10)(req, res, async (multerError) => { // Max 10 files
+const uploadToCloudinary = (fieldName = 'images', maxCount = 5) => (req, res, next) => {
+    upload.array(fieldName, maxCount)(req, res, async (multerError) => { // Max 10 files
         if (multerError) {
             return sendResponse(res, 400, 'File upload error', { error: multerError.message });
         }
@@ -88,4 +87,4 @@ const uploadToCloudinary = (req, res, next) => {
     });
 };
 
-export { uploadToCloudinary };
+export { upload, uploadToCloudinary };

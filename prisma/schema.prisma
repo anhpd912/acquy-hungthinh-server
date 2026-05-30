@@ -31,7 +31,6 @@ model User {
 model Product {
   id                      String   @id @default(uuid())
   tenSanPham              String
-  dongSanPham             String
   kyHieuMaSanPham         String   @unique
   dienAp                  String   @default("12V")
   dungLuong               String
@@ -53,7 +52,6 @@ model Product {
   category                Category? @relation(fields: [categoryId], references: [id])
 
   @@index([tenSanPham])
-  @@index([dongSanPham])
   @@index([isDeleted])
   @@map("products")
 }

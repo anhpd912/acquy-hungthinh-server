@@ -4,6 +4,7 @@ import videoRouter from './video.route.js';
 import authRouter from './auth.route.js';
 import userRouter from './user.router.js';
 import productRouter from './product.route.js';
+import categoryRouter from './category.route.js';
 
 const router = express.Router();
 
@@ -12,5 +13,6 @@ router.use('/videos', videoRouter);
 router.use('/auth', authRouter);
 router.use('/users', userRouter);
 router.use('/products', productRouter);
+router.use('/categories', categoryRouter);
 
 export default router;

@@ -2259,7 +2259,6 @@ export namespace Prisma {
   export type ProductMinAggregateOutputType = {
     id: string | null
     tenSanPham: string | null
-    dongSanPham: string | null
     kyHieuMaSanPham: string | null
     dienAp: string | null
     dungLuong: string | null
@@ -2281,7 +2280,6 @@ export namespace Prisma {
   export type ProductMaxAggregateOutputType = {
     id: string | null
     tenSanPham: string | null
-    dongSanPham: string | null
     kyHieuMaSanPham: string | null
     dienAp: string | null
     dungLuong: string | null
@@ -2303,7 +2301,6 @@ export namespace Prisma {
   export type ProductCountAggregateOutputType = {
     id: number
     tenSanPham: number
-    dongSanPham: number
     kyHieuMaSanPham: number
     dienAp: number
     dungLuong: number
@@ -2345,7 +2342,6 @@ export namespace Prisma {
   export type ProductMinAggregateInputType = {
     id?: true
     tenSanPham?: true
-    dongSanPham?: true
     kyHieuMaSanPham?: true
     dienAp?: true
     dungLuong?: true
@@ -2367,7 +2363,6 @@ export namespace Prisma {
   export type ProductMaxAggregateInputType = {
     id?: true
     tenSanPham?: true
-    dongSanPham?: true
     kyHieuMaSanPham?: true
     dienAp?: true
     dungLuong?: true
@@ -2389,7 +2384,6 @@ export namespace Prisma {
   export type ProductCountAggregateInputType = {
     id?: true
     tenSanPham?: true
-    dongSanPham?: true
     kyHieuMaSanPham?: true
     dienAp?: true
     dungLuong?: true
@@ -2500,7 +2494,6 @@ export namespace Prisma {
   export type ProductGroupByOutputType = {
     id: string
     tenSanPham: string
-    dongSanPham: string
     kyHieuMaSanPham: string
     dienAp: string
     dungLuong: string
@@ -2543,7 +2536,6 @@ export namespace Prisma {
   export type ProductSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     tenSanPham?: boolean
-    dongSanPham?: boolean
     kyHieuMaSanPham?: boolean
     dienAp?: boolean
     dungLuong?: boolean
@@ -2569,7 +2561,6 @@ export namespace Prisma {
   export type ProductSelectScalar = {
     id?: boolean
     tenSanPham?: boolean
-    dongSanPham?: boolean
     kyHieuMaSanPham?: boolean
     dienAp?: boolean
     dungLuong?: boolean
@@ -2602,7 +2593,6 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       tenSanPham: string
-      dongSanPham: string
       kyHieuMaSanPham: string
       dienAp: string
       dungLuong: string
@@ -2993,7 +2983,6 @@ export namespace Prisma {
   interface ProductFieldRefs {
     readonly id: FieldRef<"Product", 'String'>
     readonly tenSanPham: FieldRef<"Product", 'String'>
-    readonly dongSanPham: FieldRef<"Product", 'String'>
     readonly kyHieuMaSanPham: FieldRef<"Product", 'String'>
     readonly dienAp: FieldRef<"Product", 'String'>
     readonly dungLuong: FieldRef<"Product", 'String'>
@@ -6069,7 +6058,6 @@ export namespace Prisma {
   export const ProductScalarFieldEnum: {
     id: 'id',
     tenSanPham: 'tenSanPham',
-    dongSanPham: 'dongSanPham',
     kyHieuMaSanPham: 'kyHieuMaSanPham',
     dienAp: 'dienAp',
     dungLuong: 'dungLuong',
@@ -6306,7 +6294,6 @@ export namespace Prisma {
     NOT?: ProductWhereInput | ProductWhereInput[]
     id?: StringFilter<"Product"> | string
     tenSanPham?: StringFilter<"Product"> | string
-    dongSanPham?: StringFilter<"Product"> | string
     kyHieuMaSanPham?: StringFilter<"Product"> | string
     dienAp?: StringFilter<"Product"> | string
     dungLuong?: StringFilter<"Product"> | string
@@ -6331,7 +6318,6 @@ export namespace Prisma {
   export type ProductOrderByWithRelationInput = {
     id?: SortOrder
     tenSanPham?: SortOrder
-    dongSanPham?: SortOrder
     kyHieuMaSanPham?: SortOrder
     dienAp?: SortOrder
     dungLuong?: SortOrder
@@ -6360,7 +6346,6 @@ export namespace Prisma {
     OR?: ProductWhereInput[]
     NOT?: ProductWhereInput | ProductWhereInput[]
     tenSanPham?: StringFilter<"Product"> | string
-    dongSanPham?: StringFilter<"Product"> | string
     dienAp?: StringFilter<"Product"> | string
     dungLuong?: StringFilter<"Product"> | string
     dongKhoiDong?: StringFilter<"Product"> | string
@@ -6384,7 +6369,6 @@ export namespace Prisma {
   export type ProductOrderByWithAggregationInput = {
     id?: SortOrder
     tenSanPham?: SortOrder
-    dongSanPham?: SortOrder
     kyHieuMaSanPham?: SortOrder
     dienAp?: SortOrder
     dungLuong?: SortOrder
@@ -6416,7 +6400,6 @@ export namespace Prisma {
     NOT?: ProductScalarWhereWithAggregatesInput | ProductScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Product"> | string
     tenSanPham?: StringWithAggregatesFilter<"Product"> | string
-    dongSanPham?: StringWithAggregatesFilter<"Product"> | string
     kyHieuMaSanPham?: StringWithAggregatesFilter<"Product"> | string
     dienAp?: StringWithAggregatesFilter<"Product"> | string
     dungLuong?: StringWithAggregatesFilter<"Product"> | string
@@ -6731,7 +6714,6 @@ export namespace Prisma {
   export type ProductCreateInput = {
     id?: string
     tenSanPham: string
-    dongSanPham: string
     kyHieuMaSanPham: string
     dienAp?: string
     dungLuong: string
@@ -6755,7 +6737,6 @@ export namespace Prisma {
   export type ProductUncheckedCreateInput = {
     id?: string
     tenSanPham: string
-    dongSanPham: string
     kyHieuMaSanPham: string
     dienAp?: string
     dungLuong: string
@@ -6779,7 +6760,6 @@ export namespace Prisma {
   export type ProductUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     tenSanPham?: StringFieldUpdateOperationsInput | string
-    dongSanPham?: StringFieldUpdateOperationsInput | string
     kyHieuMaSanPham?: StringFieldUpdateOperationsInput | string
     dienAp?: StringFieldUpdateOperationsInput | string
     dungLuong?: StringFieldUpdateOperationsInput | string
@@ -6803,7 +6783,6 @@ export namespace Prisma {
   export type ProductUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     tenSanPham?: StringFieldUpdateOperationsInput | string
-    dongSanPham?: StringFieldUpdateOperationsInput | string
     kyHieuMaSanPham?: StringFieldUpdateOperationsInput | string
     dienAp?: StringFieldUpdateOperationsInput | string
     dungLuong?: StringFieldUpdateOperationsInput | string
@@ -6827,7 +6806,6 @@ export namespace Prisma {
   export type ProductCreateManyInput = {
     id?: string
     tenSanPham: string
-    dongSanPham: string
     kyHieuMaSanPham: string
     dienAp?: string
     dungLuong: string
@@ -6851,7 +6829,6 @@ export namespace Prisma {
   export type ProductUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     tenSanPham?: StringFieldUpdateOperationsInput | string
-    dongSanPham?: StringFieldUpdateOperationsInput | string
     kyHieuMaSanPham?: StringFieldUpdateOperationsInput | string
     dienAp?: StringFieldUpdateOperationsInput | string
     dungLuong?: StringFieldUpdateOperationsInput | string
@@ -6874,7 +6851,6 @@ export namespace Prisma {
   export type ProductUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     tenSanPham?: StringFieldUpdateOperationsInput | string
-    dongSanPham?: StringFieldUpdateOperationsInput | string
     kyHieuMaSanPham?: StringFieldUpdateOperationsInput | string
     dienAp?: StringFieldUpdateOperationsInput | string
     dungLuong?: StringFieldUpdateOperationsInput | string
@@ -7326,7 +7302,6 @@ export namespace Prisma {
   export type ProductCountOrderByAggregateInput = {
     id?: SortOrder
     tenSanPham?: SortOrder
-    dongSanPham?: SortOrder
     kyHieuMaSanPham?: SortOrder
     dienAp?: SortOrder
     dungLuong?: SortOrder
@@ -7358,7 +7333,6 @@ export namespace Prisma {
   export type ProductMaxOrderByAggregateInput = {
     id?: SortOrder
     tenSanPham?: SortOrder
-    dongSanPham?: SortOrder
     kyHieuMaSanPham?: SortOrder
     dienAp?: SortOrder
     dungLuong?: SortOrder
@@ -7380,7 +7354,6 @@ export namespace Prisma {
   export type ProductMinOrderByAggregateInput = {
     id?: SortOrder
     tenSanPham?: SortOrder
-    dongSanPham?: SortOrder
     kyHieuMaSanPham?: SortOrder
     dienAp?: SortOrder
     dungLuong?: SortOrder
@@ -8254,7 +8227,6 @@ export namespace Prisma {
   export type ProductCreateWithoutCategoryInput = {
     id?: string
     tenSanPham: string
-    dongSanPham: string
     kyHieuMaSanPham: string
     dienAp?: string
     dungLuong: string
@@ -8277,7 +8249,6 @@ export namespace Prisma {
   export type ProductUncheckedCreateWithoutCategoryInput = {
     id?: string
     tenSanPham: string
-    dongSanPham: string
     kyHieuMaSanPham: string
     dienAp?: string
     dungLuong: string
@@ -8329,7 +8300,6 @@ export namespace Prisma {
     NOT?: ProductScalarWhereInput | ProductScalarWhereInput[]
     id?: StringFilter<"Product"> | string
     tenSanPham?: StringFilter<"Product"> | string
-    dongSanPham?: StringFilter<"Product"> | string
     kyHieuMaSanPham?: StringFilter<"Product"> | string
     dienAp?: StringFilter<"Product"> | string
     dungLuong?: StringFilter<"Product"> | string
@@ -8425,7 +8395,6 @@ export namespace Prisma {
   export type ProductCreateManyCategoryInput = {
     id?: string
     tenSanPham: string
-    dongSanPham: string
     kyHieuMaSanPham: string
     dienAp?: string
     dungLuong: string
@@ -8448,7 +8417,6 @@ export namespace Prisma {
   export type ProductUpdateWithoutCategoryInput = {
     id?: StringFieldUpdateOperationsInput | string
     tenSanPham?: StringFieldUpdateOperationsInput | string
-    dongSanPham?: StringFieldUpdateOperationsInput | string
     kyHieuMaSanPham?: StringFieldUpdateOperationsInput | string
     dienAp?: StringFieldUpdateOperationsInput | string
     dungLuong?: StringFieldUpdateOperationsInput | string
@@ -8471,7 +8439,6 @@ export namespace Prisma {
   export type ProductUncheckedUpdateWithoutCategoryInput = {
     id?: StringFieldUpdateOperationsInput | string
     tenSanPham?: StringFieldUpdateOperationsInput | string
-    dongSanPham?: StringFieldUpdateOperationsInput | string
     kyHieuMaSanPham?: StringFieldUpdateOperationsInput | string
     dienAp?: StringFieldUpdateOperationsInput | string
     dungLuong?: StringFieldUpdateOperationsInput | string
@@ -8494,7 +8461,6 @@ export namespace Prisma {
   export type ProductUncheckedUpdateManyWithoutCategoryInput = {
     id?: StringFieldUpdateOperationsInput | string
     tenSanPham?: StringFieldUpdateOperationsInput | string
-    dongSanPham?: StringFieldUpdateOperationsInput | string
     kyHieuMaSanPham?: StringFieldUpdateOperationsInput | string
     dienAp?: StringFieldUpdateOperationsInput | string
     dungLuong?: StringFieldUpdateOperationsInput | string

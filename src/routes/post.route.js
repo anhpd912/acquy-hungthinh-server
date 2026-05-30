@@ -43,7 +43,7 @@ const router = express.Router();
  */
 router.post('/', 
     authenticate, 
-    uploadToCloudinary, 
+    uploadToCloudinary('media', 10), 
     validate(createPostDto, 'body'), 
     postController.create
 );
