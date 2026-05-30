@@ -1,0 +1,95 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/client"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                 String    @id @default(uuid())
+  username           String    @unique
+  password           String
+  displayName        String
+  isActive           Boolean   @default(true)
+  lastLogin          DateTime?
+  lockedUntil        DateTime?
+  refreshToken       String?
+  refreshTokenExpiry DateTime?
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+  posts              Post[]
+  videos             Video[]
+
+  @@map("users")
+}
+
+model Product {
+  id                      String    @id @default(uuid())
+  tenSanPham              String
+  kyHieuMaSanPham         String    @unique
+  dienAp                  String    @default("12V")
+  dungLuong               String
+  dongKhoiDong            String
+  kieuChanDeVaCocBinh     String
+  moTaUngDungVaTuongThich String?
+  xuatXu                  String    @default("Hàn Quốc")
+  imageUrls               Json
+  imagePublicIds          Json
+  kichThuocDaiMm          Float?
+  kichThuocRongMm         Float?
+  kichThuocCaoMm          Float?
+  giaKhuyenNghiBan        Float?
+  giaGara                 Float?
+  isDeleted               Boolean   @default(false)
+  createdAt               DateTime  @default(now())
+  updatedAt               DateTime  @updatedAt
+  categoryId              String?
+  category                Category? @relation(fields: [categoryId], references: [id])
+
+  @@index([tenSanPham])
+  @@index([isDeleted])
+  @@map("products")
+}
+
+model Post {
+  id        String   @id @default(uuid())
+  title     String
+  imageUrls Json
+  createdBy String
+  author    User     @relation(fields: [createdBy], references: [id])
+  isDeleted Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("posts")
+}
+
+model Video {
+  id        String   @id @default(uuid())
+  title     String
+  videoUrls Json
+  createdBy String
+  author    User     @relation(fields: [createdBy], references: [id])
+  isDeleted Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("videos")
+}
+
+model Category {
+  id          String    @id @default(uuid())
+  name        String    @unique
+  description String?   @db.Text
+  products    Product[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@map("categories")
+}

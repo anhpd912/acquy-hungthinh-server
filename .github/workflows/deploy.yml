@@ -1,0 +1,54 @@
+name: Deploy Node.js App to cPanel
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Build and Upload
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🚚 Checkout code
+        uses: actions/checkout@v3
+
+      - name: ⚙️ Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: 📦 Install dependencies
+        run: npm install
+
+      - name: 💎 Generate Prisma Client
+        run: npx prisma generate
+
+      - name: 🚀 Create Restart File
+        run: |
+          mkdir -p tmp
+          touch tmp/restart.txt
+
+      
+      - name: 🗄️ Sync Database Structure
+        run: npx prisma db push --accept-data-loss
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
+      - name: 📤 Sync files via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./
+          server-dir: ./acquy-server/
+          exclude: |
+            **/node_modules/**
+            **/.git*/**
+            **/.github/**
+            .env
+            README.md
+            *.log
